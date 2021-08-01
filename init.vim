@@ -15,23 +15,14 @@ Plug 'airblade/vim-gitgutter'
 " Fugitiv
 Plug 'https://github.com/tpope/vim-fugitive.git'
 
-" Formatter
-" Plug 'mhartington/formatter.nvim'
-
-" Goyo
-"lug 'https://github.com/junegunn/goyo.vim'
-
-" Rust-lang
-Plug 'rust-lang/rust.vim'
-
-"Plug 'rhysd/vim-clang-format'
-
+" Airline
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-"Plug 'tomasiser/vim-code-dark'
+" Gruvbox theme
 Plug 'morhetz/gruvbox' 
 
+" lspconfig
 Plug 'neovim/nvim-lspconfig'
 
 " Telescope
@@ -45,6 +36,9 @@ Plug 'folke/lsp-colors.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'folke/trouble.nvim'
 
+" Autoformat
+Plug 'Chiel92/vim-autoformat'
+
 " Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 call plug#end()
 
@@ -54,6 +48,7 @@ call plug#end()
 lua << EOF
 require'lspconfig'.pyright.setup{}
 require'lspconfig'.clangd.setup{}
+require'lspconfig'.rust_analyzer.setup{}
 
 local nvim_lsp = require('lspconfig')
 local on_attach = function(client, bufnr)
@@ -71,7 +66,7 @@ local on_attach = function(client, bufnr)
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { "pyright", "clangd"}
+local servers = { "pyright", "clangd", "rust_analyzer"}
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
@@ -110,6 +105,9 @@ let g:airline_skip_empty_sections = 1
 let g:airline_detect_spelllang = 1
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 
+" Autoformat
+au BufWrite * :Autoformat
+
 " Using Lua functions
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
@@ -125,7 +123,6 @@ lua << EOF
   }
 EOF
 nnoremap <leader>t <cmd>TroubleToggle<CR>
-
 
 " Gutentags
 let g:gutentags_ctags_extra_args = ['tags=./tags,tags']
@@ -217,6 +214,9 @@ highlight StatusLineNC        cterm=inverse ctermfg=16 ctermbg=13
 set cursorline
 set clipboard=unnamedplus
 
+" Autoformat
+let g:python3_host_prog="/usr/bin/python3"
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""
 " 		Keymappings
@@ -228,7 +228,6 @@ noremap <Left> <Nop>
 noremap <Right> <Nop>
 
 noremap <F8> <ESC>:!ctags -R 
-noremap <F4> <ESC>:Format<CR>
 nnoremap <F3> <ESC>:vert new<CR><C-o>:term python3<CR>
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
@@ -239,7 +238,7 @@ nnoremap <C-w><C-n> <ESC>:vert new<CR>
 nnoremap <C-s> :update<CR>
 inoremap <C-s> <ESC>:update<CR>i
 noremap <C-w>n <esc>:vnew<cr>
-
+noremap <F4> :Autoformat<CR>
 " Why does this have to be here? I don't know, if you place it further up it
 " doesn't work...
-hi SignColumn cterm=NONE ctermbg=0 ctermfg=0
+ hi SignColumn cterm=NONE ctermbg=0 ctermfg=0
