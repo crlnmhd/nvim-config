@@ -9,16 +9,13 @@ call plug#begin('~/.config/nvim/plugged')
 " Gutentags.
 Plug 'ludovicchabant/vim-gutentags'
 
-" Better highlighting
-" Plug 'https://github.com/KeitaNakamura/highlighter.nvim'
-
 " Git gutter
 Plug 'airblade/vim-gitgutter'
 
 " Fugitiv
 Plug 'https://github.com/tpope/vim-fugitive.git'
 
-" Fromatter
+" Formatter
 " Plug 'mhartington/formatter.nvim'
 
 " Goyo
@@ -37,15 +34,17 @@ Plug 'morhetz/gruvbox'
 
 Plug 'neovim/nvim-lspconfig'
 
+" Telescope
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-lua/completion-nvim'
 
+" Trouble 
 Plug 'folke/lsp-colors.nvim'
-
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'folke/trouble.nvim'
+
 " Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 call plug#end()
 
@@ -110,13 +109,6 @@ let g:airline_powerline_fonts = 0
 let g:airline_skip_empty_sections = 1
 let g:airline_detect_spelllang = 1
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
-
-" Telescope 
-" Find files using Telescope command-line sugar.
-" nnoremap <leader>ff <cmd>Telescope find_files<cr>
-" nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-" nnoremap <leader>fb <cmd>Telescope buffers<cr>
-" nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 " Using Lua functions
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
@@ -197,18 +189,13 @@ hi GitGutterDelete ctermfg=1
 
 set relativenumber 
 
-"autocmd vimenter * ++nested 
-
 set number
 set updatetime=200
-"let g:miramare_enable_italic = 1
-"let g:miramare_disable_italic_comment = 1
 set splitright
 nnoremap cf :<C-u>ClangFormat<CR>
 
 
 set tags=./tags,tags;
-"Temporarily disable arrow keys to learn vim
 
 " Required:
 filetype plugin indent on
@@ -234,31 +221,23 @@ set clipboard=unnamedplus
 """"""""""""""""""""""""""""""""""""""""""""""""""""
 " 		Keymappings
 
+" Disable arrow keys in normal mode.
 noremap <Up> <Nop>
 noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 
-" Leave this traling whitespace alone.
 noremap <F8> <ESC>:!ctags -R 
 noremap <F4> <ESC>:Format<CR>
-nnoremap <F3> <ESC>:vert new<CR><C-o>:term python -i %<CR>a
-nnoremap <C-f> <ESC>:GFiles src<CR>
-nnoremap <C-f> <ESC>:Files<CR>
-nnoremap <C-b> <ESC>:Buffers<CR>
-"nnoremap <C-n> <ESC>:Tags<CR>
-"nnoremap <C-q> <ESC>:Lines<CR>
+nnoremap <F3> <ESC>:vert new<CR><C-o>:term python3<CR>
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 "nnoremap <C-m> <ESC>:Marks<CR>
-"nnoremap <C-w><C-n> <ESC>:vert new<CR>
+nnoremap <C-w><C-n> <ESC>:vert new<CR>
 nnoremap <C-s> :update<CR>
-"nnoremap <Enter> :call ToggleSpell()<CR>
 inoremap <C-s> <ESC>:update<CR>i
-"tnoremap <C-C> <C-\><C-n>
-"
 noremap <C-w>n <esc>:vnew<cr>
 
 " Why does this have to be here? I don't know, if you place it further up it
