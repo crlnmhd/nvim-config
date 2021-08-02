@@ -112,6 +112,7 @@ au BufWrite * :Autoformat
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fs <cmd>lua require('telescope.builtin').grep_string()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
 " Troule 
@@ -181,6 +182,9 @@ hi GitGutterChange ctermfg=3
 hi GitGutterDelete ctermfg=1
 
 
+" Autoformat
+let g:python3_host_prog="/usr/bin/python3"
+
 """"""""""""""""""""""""""""""""""""""""""""
 "          General config
 
@@ -189,8 +193,6 @@ set relativenumber
 set number
 set updatetime=200
 set splitright
-nnoremap cf :<C-u>ClangFormat<CR>
-
 
 set tags=./tags,tags;
 
@@ -214,9 +216,8 @@ highlight StatusLineNC        cterm=inverse ctermfg=16 ctermbg=13
 set cursorline
 set clipboard=unnamedplus
 
-" Autoformat
-let g:python3_host_prog="/usr/bin/python3"
-
+" Longer timout for leader key
+set timeoutlen=2000
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""
 " 		Keymappings
