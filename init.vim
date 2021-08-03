@@ -1,5 +1,5 @@
 if &compatible
-    set nocompatible  " Be iMproved
+  set nocompatible  " Be iMproved
 endif
 
 """"""""""""""""""""""""""""""""""""""""
@@ -20,7 +20,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " Gruvbox theme
-Plug 'morhetz/gruvbox' 
+Plug 'morhetz/gruvbox'
 
 " lspconfig
 Plug 'neovim/nvim-lspconfig'
@@ -31,7 +31,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-lua/completion-nvim'
 
-" Trouble 
+" Trouble
 Plug 'folke/lsp-colors.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'folke/trouble.nvim'
@@ -52,17 +52,17 @@ require'lspconfig'.rust_analyzer.setup{}
 
 local nvim_lsp = require('lspconfig')
 local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...)
-  	vim.api.nvim_buf_set_keymap(bufnr, ...)
-	end
-   -- Mappings.
+local function buf_set_keymap(...)
+vim.api.nvim_buf_set_keymap(bufnr, ...)
+  end
+  -- Mappings.
   local opts = { noremap=true, silent=true }
   buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  end
+end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
@@ -72,13 +72,13 @@ for _, lsp in ipairs(servers) do
     on_attach = on_attach,
     flags = {
       debounce_text_changes = 150,
+      }
     }
-  }
 end
 EOF
 
 """"""""""""""""""""""""""""""""""""""""""""""
-"""" 	      Auto completion
+""""        Auto completion
 " Use completion-nvim in every buffer
 autocmd BufEnter * lua require'completion'.on_attach()
 set completeopt=menuone,noinsert,noselect
@@ -92,9 +92,9 @@ imap <s-tab> <Plug>(completion_smart_s_tab
 
 
 """""""""""""""""""""""""""""""""""""""""""
-"	   Other plugin configurations
+"    Other plugin configurations
 
-set termguicolors 
+set termguicolors
 let g:airline_theme='gruvbox'
 colorscheme gruvbox
 let g:gruvbox_contrast_dark = 'hard'
@@ -115,12 +115,12 @@ nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fs <cmd>lua require('telescope.builtin').grep_string()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
-" Troule 
+" Troule
 lua << EOF
-  require("trouble").setup {
-    -- your configuration comes here
-    -- or leave it empty to use the default settings
-    -- refer to the configuration section below
+require("trouble").setup {
+  -- your configuration comes here
+  -- or leave it empty to use the default settings
+  -- refer to the configuration section below
   }
 EOF
 nnoremap <leader>t <cmd>TroubleToggle<CR>
@@ -174,7 +174,7 @@ let g:gutentags_ctags_exclude = [
       \ '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png',
       \ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
       \ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
-      \] 
+      \]
 
 " Git gutter
 hi GitGutterAdd    ctermfg=2
@@ -188,7 +188,7 @@ let g:python3_host_prog="/usr/bin/python3"
 """"""""""""""""""""""""""""""""""""""""""""
 "          General config
 
-set relativenumber 
+set relativenumber
 
 set number
 set updatetime=200
@@ -201,12 +201,12 @@ filetype plugin indent on
 syntax enable
 set hidden
 set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
-set scrolloff=5
+set scrolloff=999
 
 set spell spelllang=en_us
 set inccommand=split
 
-" Better searching 
+" Better searching
 set ignorecase
 set smartcase
 
@@ -220,7 +220,7 @@ set clipboard=unnamedplus
 set timeoutlen=2000
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""
-" 		Keymappings
+" Keymappings
 
 " Disable arrow keys in normal mode.
 noremap <Up> <Nop>
@@ -228,7 +228,7 @@ noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 
-noremap <F8> <ESC>:!ctags -R 
+noremap <F8> <ESC>:!ctags -R
 nnoremap <F3> <ESC>:vert new<CR><C-o>:term python3<CR>
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
@@ -240,6 +240,10 @@ nnoremap <C-s> :update<CR>
 inoremap <C-s> <ESC>:update<CR>i
 noremap <C-w>n <esc>:vnew<cr>
 noremap <F4> :Autoformat<CR>
+
+" Improve search hl behaviour
+nnoremap * :keepjumps normal! mi*`i<CR>
+
 " Why does this have to be here? I don't know, if you place it further up it
 " doesn't work...
- hi SignColumn cterm=NONE ctermbg=0 ctermfg=0
+hi SignColumn cterm=NONE ctermbg=0 ctermfg=0
