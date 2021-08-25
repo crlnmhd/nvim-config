@@ -6,9 +6,6 @@ endif
 " Plugg
 call plug#begin('~/.config/nvim/plugged')
 
-" Gutentags.
-Plug 'ludovicchabant/vim-gutentags'
-
 " Git gutter
 Plug 'airblade/vim-gitgutter'
 
@@ -125,57 +122,6 @@ require("trouble").setup {
 EOF
 nnoremap <leader>t <cmd>TroubleToggle<CR>
 
-" Gutentags
-let g:gutentags_ctags_extra_args = ['tags=./tags,tags']
-let g:gutentags_cache_dir = expand('~/.config/nvim/tag_files')
-let g:gutentags_ctags_exclude = [
-      \ '*.git', '*.svg', '*.hg',
-      \ '*/tests/*',
-      \ 'build',
-      \ 'dist',
-      \ '*sites/*/files/*',
-      \ 'bin',
-      \ 'node_modules',
-      \ 'bower_components',
-      \ 'cache',
-      \ 'compiled',
-      \ 'docs',
-      \ 'example',
-      \ 'bundle',
-      \ 'vendor',
-      \ '*.md',
-      \ '*-lock.json',
-      \ '*.lock',
-      \ '*bundle*.js',
-      \ '*build*.js',
-      \ '.*rc*',
-      \ '*.json',
-      \ '*.min.*',
-      \ '*.map',
-      \ '*.bak',
-      \ '*.zip',
-      \ '*.pyc',
-      \ '*.class',
-      \ '*.sln',
-      \ '*.Master',
-      \ '*.csproj',
-      \ '*.tmp',
-      \ '*.csproj.user',
-      \ '*.cache',
-      \ '*.pdb',
-      \ 'tags*',
-      \ 'cscope.*',
-      \ '*.css',
-      \ '*.less',
-      \ '*.scss',
-      \ '*.exe', '*.dll',
-      \ '*.mp3', '*.ogg', '*.flac',
-      \ '*.swp', '*.swo',
-      \ '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png',
-      \ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
-      \ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
-      \]
-
 " Git gutter
 hi GitGutterAdd    ctermfg=2
 hi GitGutterChange ctermfg=3
@@ -194,7 +140,7 @@ set number
 set updatetime=200
 set splitright
 
-set tags=./tags,tags;
+" set tags=./tags,tags;
 
 " Required:
 filetype plugin indent on
