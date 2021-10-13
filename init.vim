@@ -59,6 +59,7 @@ vim.api.nvim_buf_set_keymap(bufnr, ...)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<C-/>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
@@ -104,6 +105,9 @@ let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 
 " Autoformat
 au BufWrite * :Autoformat
+" More aggressive python formatting.
+let g:formatdef_autopep8 = "'autopep8 - --aggressive --range '.a:firstline.' '.a:lastline"
+let g:formatters_python = ['autopep8']
 
 " Using Lua functions
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
@@ -120,8 +124,7 @@ require("trouble").setup {
   -- refer to the configuration section below
   }
 EOF
-nnoremap <leader>t <cmd>TroubleToggle<CR>
-
+nnoremap <leader>t <cmd>TroubleToggle document<CR>
 " Git gutter
 hi GitGutterAdd    ctermfg=2
 hi GitGutterChange ctermfg=3
@@ -147,7 +150,7 @@ filetype plugin indent on
 syntax enable
 set hidden
 set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
-set scrolloff=999
+set scrolloff=20
 
 set spell spelllang=en_us
 set inccommand=split
