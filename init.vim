@@ -177,7 +177,7 @@ noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 
-noremap <F8> <ESC>:!ctags -R
+" noremap <F8> <ESC>:!ctags -R
 nnoremap <F3> <ESC>:vert new<CR><C-o>:term python3<CR>
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
