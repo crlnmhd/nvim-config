@@ -36,6 +36,7 @@ Plug 'folke/trouble.nvim'
 " Autoformat
 Plug 'Chiel92/vim-autoformat'
 
+
 " Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 call plug#end()
 
@@ -46,10 +47,15 @@ lua << EOF
 require'lspconfig'.pyright.setup{}
 require'lspconfig'.clangd.setup{}
 require'lspconfig'.rust_analyzer.setup{}
+require'lspconfig'.ltex.setup{}
+
 
 local nvim_lsp = require('lspconfig')
 local on_attach = function(client, bufnr)
 local function buf_set_keymap(...)
+
+
+
 vim.api.nvim_buf_set_keymap(bufnr, ...)
   end
   -- Mappings.
@@ -124,12 +130,11 @@ require("trouble").setup {
   -- refer to the configuration section below
   }
 EOF
-nnoremap <leader>t <cmd>TroubleToggle document<CR>
+nnoremap <leader>t <cmd>TroubleToggle document_diagnostics<CR>
 " Git gutter
 hi GitGutterAdd    ctermfg=2
 hi GitGutterChange ctermfg=3
 hi GitGutterDelete ctermfg=1
-
 
 " Autoformat
 let g:python3_host_prog="/usr/bin/python3"
