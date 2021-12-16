@@ -36,6 +36,11 @@ Plug 'folke/trouble.nvim'
 " Autoformat
 Plug 'Chiel92/vim-autoformat'
 
+" coq completion
+Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+" 9000+ Snippets
+Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
+
 
 " Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 call plug#end()
