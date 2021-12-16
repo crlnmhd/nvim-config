@@ -78,8 +78,13 @@ vim.api.nvim_buf_set_keymap(bufnr, ...)
 end
 
   -- Setup nvim-cmp.
-  local cmp = require'cmp'
+ local cmp = require'cmp'
+  local has_words_before = function()
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+ end
 
+local luasnip = require("luasnip")
   cmp.setup({
     snippet = {
       -- REQUIRED - you must specify a snippet engine
@@ -99,6 +104,27 @@ end
       -- Accept currently selected item. If none selected, `select` first item.
       -- Set `select` to `false` to only confirm explicitly selected items.
       ['<CR>'] = cmp.mapping.confirm({ select = true }),
+      ["<Tab>"] = cmp.mapping(function(fallback)
+	      if cmp.visible() then
+		cmp.select_next_item()
+	      elseif luasnip.expand_or_jumpable() then
+		luasnip.expand_or_jump()
+	      elseif has_words_before() then
+		cmp.complete()
+	      else
+		fallback()
+	      end
+    end, { "i", "s" }),
+
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
+	      if cmp.visible() then
+		cmp.select_prev_item()
+	      elseif luasnip.jumpable(-1) then
+		luasnip.jump(-1)
+	      else
+		fallback()
+	      end
+    end, { "i", "s" }),
     },
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
@@ -126,7 +152,7 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { "pyright", "clangd", "rust_analyzer"} 
+local servers = { "pyright", "clangd", "rust_analyzer", "ltex"} 
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
@@ -137,10 +163,6 @@ for _, lsp in ipairs(servers) do
     }
 end
 EOF
-
-""""""""""""""""""""""""""""""""""""""""""""""
-""""     Auto completion with nvim-cmp
-
 
 """""""""""""""""""""""""""""""""""""""""""
 "    Other plugin configurations
