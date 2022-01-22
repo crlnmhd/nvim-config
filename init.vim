@@ -58,6 +58,7 @@ require'lspconfig'.pyright.setup{}
 require'lspconfig'.clangd.setup{}
 require'lspconfig'.rust_analyzer.setup{}
 require'lspconfig'.ltex.setup{}
+require'lspconfig'.bashls.setup{}
 
 local nvim_lsp = require('lspconfig')
 local on_attach = function(client, bufnr)
@@ -180,6 +181,9 @@ let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 
 " Autoformat
 au BufWrite * :Autoformat
+" Disable formatting for Tex, txt and shell scripts.
+autocmd FileType vim,tex,dockerfile,sh let b:autoformat_autoindent=0
+
 " More aggressive python formatting.
 let g:formatdef_autopep8 = "'autopep8 - --aggressive --range '.a:firstline.' '.a:lastline"
 let g:formatters_python = ['autopep8']
