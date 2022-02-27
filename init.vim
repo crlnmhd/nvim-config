@@ -36,17 +36,20 @@ Plug 'folke/trouble.nvim'
 Plug 'Chiel92/vim-autoformat'
 
 " nvim-cmp
+
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 
+" Function signatures
+Plug 'ray-x/lsp_signature.nvim'
 " luasnip
 Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
 
-" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""
@@ -60,11 +63,19 @@ require'lspconfig'.rust_analyzer.setup{}
 require'lspconfig'.ltex.setup{}
 require'lspconfig'.bashls.setup{}
 
+-- Function signatures.
+cfg = {}  -- add you config here
+-- require "lsp_signature".setup(cfg)
+require "lsp_signature".setup({
+  bind = true, -- This is mandatory, otherwise border config won't get registered.
+  handler_opts = {
+    border = "rounded"
+  }
+})
+
 local nvim_lsp = require('lspconfig')
 local on_attach = function(client, bufnr)
 local function buf_set_keymap(...)
-
-
 
 vim.api.nvim_buf_set_keymap(bufnr, ...)
   end
@@ -106,25 +117,25 @@ local luasnip = require("luasnip")
       -- Set `select` to `false` to only confirm explicitly selected items.
       ['<CR>'] = cmp.mapping.confirm({ select = true }),
       ["<Tab>"] = cmp.mapping(function(fallback)
-	      if cmp.visible() then
-		cmp.select_next_item()
-	      elseif luasnip.expand_or_jumpable() then
-		luasnip.expand_or_jump()
-	      elseif has_words_before() then
-		cmp.complete()
-	      else
-		fallback()
-	      end
+        if cmp.visible() then
+    cmp.select_next_item()
+        elseif luasnip.expand_or_jumpable() then
+    luasnip.expand_or_jump()
+        elseif has_words_before() then
+    cmp.complete()
+        else
+    fallback()
+        end
     end, { "i", "s" }),
 
     ["<S-Tab>"] = cmp.mapping(function(fallback)
-	      if cmp.visible() then
-		cmp.select_prev_item()
-	      elseif luasnip.jumpable(-1) then
-		luasnip.jump(-1)
-	      else
-		fallback()
-	      end
+        if cmp.visible() then
+    cmp.select_prev_item()
+        elseif luasnip.jumpable(-1) then
+    luasnip.jump(-1)
+        else
+    fallback()
+        end
     end, { "i", "s" }),
     },
     sources = cmp.config.sources({
@@ -153,12 +164,12 @@ local luasnip = require("luasnip")
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { "pyright", "clangd", "rust_analyzer", "ltex"} 
+local servers = { "pyright", "clangd", "rust_analyzer", "ltex", "bashls"}
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
     flags = {
-      debounce_text_changes = 150,
+      -- debounce_text_changes = 150,
       capabilities = capabilities
       }
     }
