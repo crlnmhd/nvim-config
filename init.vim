@@ -49,6 +49,9 @@ Plug 'ray-x/lsp_signature.nvim'
 Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
 
+" Auto close brachets
+Plug 'jiangmiao/auto-pairs'
+
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 call plug#end()
 
@@ -187,7 +190,8 @@ let g:gruvbox_contrast_dark = 'hard'
 " Airline
 let g:airline_powerline_fonts = 0
 let g:airline_skip_empty_sections = 1
-let g:airline_detect_spelllang = 1
+let g:airline_detect_spelllang = 0
+let g:airline_detect_spell = 0
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 
 " Autoformat
@@ -212,7 +216,10 @@ require("trouble").setup {
   -- your configuration comes here
   -- or leave it empty to use the default settings
   -- refer to the configuration section below
-  }
+vim.api.nvim_set_keymap("n", "<leader>q", "<cmd>Trouble quickfix<cr>",
+  {silent = true, noremap = true}
+)  
+}
 EOF
 nnoremap <leader>t <cmd>TroubleToggle document_diagnostics<CR>
 " Git gutter
@@ -240,6 +247,9 @@ syntax enable
 set hidden
 set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 set scrolloff=20
+
+" Use global status line
+" set laststatus=3
 
 set spell spelllang=en_us
 set inccommand=split
@@ -282,6 +292,4 @@ noremap <F4> :Autoformat<CR>
 " Improve search hl behaviour
 nnoremap * :keepjumps normal! mi*`i<CR>
 
-" Why does this have to be here? I don't know, if you place it further up it
-" doesn't work...
 hi SignColumn cterm=NONE ctermbg=0 ctermfg=0
