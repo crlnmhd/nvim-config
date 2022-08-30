@@ -1,3 +1,4 @@
+vim.cmd([[
 if &compatible
   set nocompatible  " Be iMproved
 endif
@@ -306,3 +307,5 @@ noremap <F4> :Autoformat<CR>
 nnoremap * :keepjumps normal! mi*`i<CR>
 
 hi SignColumn cterm=NONE ctermbg=0 ctermfg=0
+
+]])
