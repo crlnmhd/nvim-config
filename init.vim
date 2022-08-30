@@ -36,7 +36,6 @@ Plug 'folke/trouble.nvim'
 Plug 'Chiel92/vim-autoformat'
 
 " nvim-cmp
-
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
@@ -48,6 +47,10 @@ Plug 'ray-x/lsp_signature.nvim'
 " luasnip
 Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
+
+
+" Rust-tools for inlay hints
+Plug 'simrat39/rust-tools.nvim'
 
 " Auto close brachets
 Plug 'jiangmiao/auto-pairs'
@@ -62,23 +65,25 @@ set completeopt=menu,menuone,noselect
 lua << EOF
 require'lspconfig'.pyright.setup{}
 require'lspconfig'.clangd.setup{}
-require'lspconfig'.rust_analyzer.setup{}
+--- require'lspconfig'.rust_analyzer.setup{}
 require'lspconfig'.ltex.setup{}
 require'lspconfig'.bashls.setup{}
-
--- Function signatures.
-cfg = {}  -- add you config here
--- require "lsp_signature".setup(cfg)
-require "lsp_signature".setup({
-  bind = true, -- This is mandatory, otherwise border config won't get registered.
-  handler_opts = {
-    border = "rounded"
-  }
-})
 
 local nvim_lsp = require('lspconfig')
 local on_attach = function(client, bufnr)
 local function buf_set_keymap(...)
+
+
+-- Function signatures.
+cfg = {
+	bind = true, -- This is mandatory, otherwise border config won't get registered.
+	handler_opts = {
+    		border = "rounded"
+  	},
+	toggle_key = '<leader> z',
+	select_signature_key = '<leader> Z'
+}
+require "lsp_signature".setup(cfg, bufnr)
 
 vim.api.nvim_buf_set_keymap(bufnr, ...)
   end
@@ -89,7 +94,6 @@ vim.api.nvim_buf_set_keymap(bufnr, ...)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<C-/>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 end
 
   -- Setup nvim-cmp.
@@ -165,9 +169,18 @@ local luasnip = require("luasnip")
     })
   })
 
+require("rust-tools").setup({
+	server={
+		on_attach=on_attach,
+		standalone = true,
+	}, 
+	flags={
+		capabilities = capabilities
+	}
+})
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { "pyright", "clangd", "rust_analyzer", "ltex", "bashls"}
+local servers = { "pyright", "clangd", "ltex", "bashls"}
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
@@ -177,6 +190,8 @@ for _, lsp in ipairs(servers) do
       }
     }
 end
+
+
 EOF
 
 """""""""""""""""""""""""""""""""""""""""""
@@ -197,11 +212,12 @@ let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 " Autoformat
 au BufWrite * :Autoformat
 " Disable formatting for Tex, txt and shell scripts.
-autocmd FileType vim,tex,dockerfile,sh let b:autoformat_autoindent=0
+autocmd FileType vim,tex,dockerfile,sh,make let b:autoformat_autoindent=0
 
 " More aggressive python formatting.
 let g:formatdef_autopep8 = "'autopep8 - --aggressive --range '.a:firstline.' '.a:lastline"
 let g:formatters_python = ['autopep8']
+" let g:formatters_rust = ['rustfmt']
 
 " Using Lua functions
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
@@ -247,9 +263,6 @@ syntax enable
 set hidden
 set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 set scrolloff=20
-
-" Use global status line
-" set laststatus=3
 
 set spell spelllang=en_us
 set inccommand=split
