@@ -1,69 +1,8 @@
-vim.cmd([[
-if &compatible
-  set nocompatible  " Be iMproved
-endif
+require('install_plugins')
 
-""""""""""""""""""""""""""""""""""""""""
-" Plugg
-call plug#begin('~/.config/nvim/plugged')
+--          LSP and nvim-cmp
+vim.opt.completeopt={'menu','menuone','noselect'}
 
-" Git gutter
-Plug 'airblade/vim-gitgutter'
-
-" Fugitiv
-Plug 'https://github.com/tpope/vim-fugitive.git'
-
-" Airline
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-
-" Gruvbox theme
-Plug 'morhetz/gruvbox'
-
-" lspconfig
-Plug 'neovim/nvim-lspconfig'
-
-" Telescope
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-
-" Trouble
-Plug 'folke/lsp-colors.nvim'
-Plug 'kyazdani42/nvim-web-devicons'
-Plug 'folke/trouble.nvim'
-
-" Autoformat
-Plug 'Chiel92/vim-autoformat'
-
-" nvim-cmp
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-cmdline'
-Plug 'hrsh7th/nvim-cmp'
-
-" Function signatures
-Plug 'ray-x/lsp_signature.nvim'
-" luasnip
-Plug 'L3MON4D3/LuaSnip'
-Plug 'saadparwaiz1/cmp_luasnip'
-
-
-" Rust-tools for inlay hints
-Plug 'simrat39/rust-tools.nvim'
-
-" Auto close brachets
-Plug 'jiangmiao/auto-pairs'
-
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-call plug#end()
-
-"""""""""""""""""""""""""""""""""""""""""""""
-"""          LSP and nvim-cmp
-set completeopt=menu,menuone,noselect
-
-lua << EOF
 require'lspconfig'.pyright.setup{}
 require'lspconfig'.clangd.setup{}
 --- require'lspconfig'.rust_analyzer.setup{}
@@ -193,9 +132,7 @@ for _, lsp in ipairs(servers) do
 end
 
 
-EOF
-
-"""""""""""""""""""""""""""""""""""""""""""
+vim.cmd([[
 "    Other plugin configurations
 
 set termguicolors
