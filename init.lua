@@ -131,10 +131,6 @@ for _, lsp in ipairs(servers) do
     }
 end
 
--- General configurations in lua
-vim.o.ls = 0
-vim.o.ch = 0
-
 
 vim.cmd([[
 "    Other plugin configurations
