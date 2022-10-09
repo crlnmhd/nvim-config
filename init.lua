@@ -118,6 +118,16 @@ require("rust-tools").setup({
 		capabilities = capabilities
 	}
 })
+
+require("trouble").setup {
+  -- your configuration comes here
+  -- or leave it empty to use the default settings
+  -- refer to the configuration section below
+vim.api.nvim_set_keymap("n", "<leader>q", "<cmd>Trouble quickfix<cr>",
+	  {silent = true, noremap = true}
+	)
+}
+
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
 local servers = { "pyright", "clangd", "ltex", "bashls"}
@@ -164,17 +174,6 @@ nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fs <cmd>lua require('telescope.builtin').grep_string()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
-" Troule
-lua << EOF
-require("trouble").setup {
-  -- your configuration comes here
-  -- or leave it empty to use the default settings
-  -- refer to the configuration section below
-vim.api.nvim_set_keymap("n", "<leader>q", "<cmd>Trouble quickfix<cr>",
-  {silent = true, noremap = true}
-)  
-}
-EOF
 nnoremap <leader>t <cmd>TroubleToggle document_diagnostics<CR>
 " Git gutter
 hi GitGutterAdd    ctermfg=2
