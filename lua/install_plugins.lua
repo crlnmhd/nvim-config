@@ -50,9 +50,6 @@ Plug 'saadparwaiz1/cmp_luasnip'
 " Rust-tools for inlay hints
 Plug 'simrat39/rust-tools.nvim'
 
-" Auto close brachets
-Plug 'jiangmiao/auto-pairs'
-
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 call plug#end()
 
