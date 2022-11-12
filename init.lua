@@ -141,9 +141,18 @@ for _, lsp in ipairs(servers) do
   }
 end
 
+-- Grubox them
+vim.opt.termguicolors = true
+vim.g.airline_theme = 'gruvbox'
+vim.cmd [[colorscheme gruvbox]]
+vim.g.gruvbox_contrast_dark = 'medium'
 
-vim.cmd([[
-"    Other plugin configurations
+-- Airline
+vim.g.airline_powerline_fonts = 0
+vim.g.airline_skip_empty_sections = 1
+vim.g.airline_detect_spelllang = 0
+vim.g.airline_detect_spell = 0
+vim.cmd [[let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]']]
 
 set termguicolors
 let g:airline_theme='gruvbox'
