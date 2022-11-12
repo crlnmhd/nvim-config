@@ -154,22 +154,15 @@ vim.g.airline_detect_spelllang = 0
 vim.g.airline_detect_spell = 0
 vim.cmd [[let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]']]
 
-set termguicolors
-let g:airline_theme='gruvbox'
-colorscheme gruvbox
-let g:gruvbox_contrast_dark = 'hard'
+-- Autoformat
+vim.cmd [[au BufWrite * :Autoformat]]
+vim.g.autoformat_autoindent = 0
+vim.g.autoformat_retab = 0
 
-" Airline
-let g:airline_powerline_fonts = 0
-let g:airline_skip_empty_sections = 1
-let g:airline_detect_spelllang = 0
-let g:airline_detect_spell = 0
-let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 
-" Autoformat
-au BufWrite * :Autoformat
-" Disable formatting for Tex, txt and shell scripts.
-autocmd FileType vim,tex,dockerfile,sh,make let b:autoformat_autoindent=0
+vim.cmd([[
+"    Other plugin configurations
+
 
 " More aggressive python formatting.
 let g:formatdef_autopep8 = "'autopep8 - --aggressive --range '.a:firstline.' '.a:lastline"
