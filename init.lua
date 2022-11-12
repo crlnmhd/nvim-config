@@ -13,7 +13,6 @@ local nvim_lsp = require('lspconfig')
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...)
 
-
     -- Function signatures.
     cfg = {
       bind = true, -- This is mandatory, otherwise border config won't get registered.
@@ -34,6 +33,30 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+
+  buf_set_keymap('', '<leader>ff', '<cmd>lua require("telescope.builtin").find_files()<cr>', opts)
+  buf_set_keymap('', '<leader>fg', '<cmd>lua require("telescope.builtin").live_grep()<cr>', opts)
+  buf_set_keymap('', '<leader>fb', '<cmd>lua require("telescope.builtin").buffers()<cr>', opts)
+  buf_set_keymap('', '<leader>fs', '<cmd>lua require("telescope.builtin").grep_string()<cr>', opts)
+  buf_set_keymap('', '<leader>fh', '<cmd>lua require("telescope.builtin").help_tags()<cr>', opts)
+
+  buf_set_keymap('', '<leader>t',' <cmd>TroubleToggle document_diagnostics<CR>', opts)
+
+  buf_set_keymap('', '<Up>', '<Nop>', opts)
+  buf_set_keymap('', '<Down>', '<Nop>', opts)
+  buf_set_keymap('', '<Left>', '<Nop>', opts)
+  buf_set_keymap('', '<Right>', '<Nop>', opts)
+
+  buf_set_keymap('', '<F3>',' <ESC>:vert new<CR><C-o>:term python3<CR>', opts)
+  buf_set_keymap('', '<C-h>',' <C-w>h', opts)
+  buf_set_keymap('',  '<C-j>',' <C-w>j', opts)
+  buf_set_keymap('',  '<C-k>',' <C-w>k', opts)
+  buf_set_keymap('',  '<C-l>',' <C-w>l', opts)
+  buf_set_keymap('',  '<C-w><C-n>',' <ESC>:vert new<CR>', opts)
+  buf_set_keymap('',  '<C-s>',' :update<CR>', opts)
+  buf_set_keymap('', '<C-w>n',' <esc>:vnew<cr>', opts)
+  buf_set_keymap('', '<F4>',' :Autoformat<CR>', opts)
+  vim.cmd [[inoremap <C-s>',' <ESC>:update<CR>i]]
 end
 
 -- Setup nvim-cmp.
@@ -157,93 +180,52 @@ vim.cmd [[let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]']]
 -- Autoformat
 vim.cmd [[au BufWrite * :Autoformat]]
 vim.g.autoformat_autoindent = 0
-vim.g.autoformat_retab = 0
+vim.g.autoformat_retab  = 0
 
+-- Use more aggressive python formatting.
+vim.g.formatdef_autopep8 = "'autopep9 - --aggressive --range '.a:firstline.' '.a:lastline"
+vim.cmd [[let g:formatters_python = ['autopep8'] ]]
+vim.cmd [[ let g:formatters_lua = ['luafmt'] ]]
+
+-- git gutter
+vim.cmd([[
+  hi GitGutterAdd    ctermfg=2
+  hi GitGutterChange ctermfg=3
+  hi GitGutterDelete ctermfg=1
+]])
+
+-- general config
+vim.o.relativenumber = true
+vim.onumber = true
+vim.o.updatetime=200
+vim.o.splitright = true
+
+-- Autoformat
+vim.g.python3_host_prog = '/usr/bin/python3'
+
+
+vim.cmd [[filetype plugin indent on]]
+vim.o.syntax = 'on'
+vim.o.number = true
+vim.o.hidden = true
+vim.o.tabstop = 2
+vim.o.softtabstop = 0
+vim.o.expandtab = true
+vim.o.shiftwidth=2
+vim.o.smarttab = true
+vim.o.scrolloff=20
+vim.o.spelllang = 'en_us'
+vim.o.inccommand = 'split'
+vim.o.ignorecase = true
+vim.o.smartcase = true
+vim.o.cursorline = true
+vim.o.clipboard = 'unnamedplus'
+vim.o.timeoutlen=2000
 
 vim.cmd([[
-"    Other plugin configurations
-
-
-" More aggressive python formatting.
-let g:formatdef_autopep8 = "'autopep8 - --aggressive --range '.a:firstline.' '.a:lastline"
-let g:formatters_python = ['autopep8']
-" let g:formatters_rust = ['rustfmt']
-
-" Using Lua functions
-nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <leader>fs <cmd>lua require('telescope.builtin').grep_string()<cr>
-nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
-
-nnoremap <leader>t <cmd>TroubleToggle document_diagnostics<CR>
-" Git gutter
-hi GitGutterAdd    ctermfg=2
-hi GitGutterChange ctermfg=3
-hi GitGutterDelete ctermfg=1
-
-" Autoformat
-let g:python3_host_prog="/usr/bin/python3"
-
-""""""""""""""""""""""""""""""""""""""""""""
-"          General config
-
-set relativenumber
-
-set number
-set updatetime=200
-set splitright
-
-" set tags=./tags,tags;
-
-" Required:
-filetype plugin indent on
-syntax enable
-set hidden
-set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
-set scrolloff=20
-
-set spell spelllang=en_us
-set inccommand=split
-
-" Better searching
-set ignorecase
-set smartcase
-
-highlight StatusLine          cterm=bold    ctermfg=16 ctermbg=13
-highlight StatusLineNC        cterm=inverse ctermfg=16 ctermbg=13
-
-set cursorline
-set clipboard=unnamedplus
-
-" Longer timout for leader key
-set timeoutlen=2000
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Keymappings
-
-" Disable arrow keys in normal mode.
-noremap <Up> <Nop>
-noremap <Down> <Nop>
-noremap <Left> <Nop>
-noremap <Right> <Nop>
-
-" noremap <F8> <ESC>:!ctags -R
-nnoremap <F3> <ESC>:vert new<CR><C-o>:term python3<CR>
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-"nnoremap <C-m> <ESC>:Marks<CR>
-nnoremap <C-w><C-n> <ESC>:vert new<CR>
-nnoremap <C-s> :update<CR>
-inoremap <C-s> <ESC>:update<CR>i
-noremap <C-w>n <esc>:vnew<cr>
-noremap <F4> :Autoformat<CR>
-
-" Improve search hl behaviour
-nnoremap * :keepjumps normal! mi*`i<CR>
-
-hi SignColumn cterm=NONE ctermbg=0 ctermfg=0
-
+  highlight StatusLine          cterm=bold    ctermfg=16 ctermbg=13
+  highlight StatusLineNC        cterm=inverse ctermfg=16 ctermbg=13
 ]])
+
+vim.cmd[[ nnoremap * :keepjumps normal! mi*`i<CR> ]]
+vim.cmd[[ hi SignColumn cterm=NONE ctermbg=0 ctermfg=0 ]]
