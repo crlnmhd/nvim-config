@@ -31,7 +31,7 @@ Plug 'kyazdani42/nvim-web-devicons'
 Plug 'folke/trouble.nvim'
 
 " Autoformat
-Plug 'Chiel92/vim-autoformat'
+Plug 'vim-autoformat/vim-autoformat'
 
 " nvim-cmp
 Plug 'hrsh7th/cmp-nvim-lsp'
