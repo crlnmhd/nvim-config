@@ -142,7 +142,7 @@ vim.g.autoformat_autoindent = 0
 vim.g.autoformat_retab  = 0
 
 -- Use more aggressive python formatting.
-vim.g.formatdef_autopep8 = "'autopep9 - --aggressive --range '.a:firstline.' '.a:lastline"
+vim.g.formatdef_autopep8 = "'autopep8 - --aggressive --range '.a:firstline.' '.a:lastline"
 vim.cmd [[let g:formatters_python = ['autopep8'] ]]
 vim.cmd [[let g:formatters_lua = ['luafmt'] ]]
 
