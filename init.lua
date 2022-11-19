@@ -1,4 +1,6 @@
 require('install_plugins')
+require('user_config')
+local keymap = require('keymap')
 
 --          LSP and nvim-cmp
 vim.opt.completeopt={'menu','menuone','noselect'}
@@ -42,21 +44,6 @@ local on_attach = function(client, bufnr)
 
   buf_set_keymap('n', '<leader>t',' <cmd>TroubleToggle document_diagnostics<CR>', opts)
 
-  buf_set_keymap('n', '<Up>', '<Nop>', opts)
-  buf_set_keymap('n', '<Down>', '<Nop>', opts)
-  buf_set_keymap('n', '<Left>', '<Nop>', opts)
-  buf_set_keymap('n', '<Right>', '<Nop>', opts)
-
-  buf_set_keymap('n', '<F3>',' <ESC>:vert new<CR><C-o>:term python3<CR>', opts)
-  buf_set_keymap('n', '<C-h>',' <C-w>h', opts)
-  buf_set_keymap('n', '<C-j>',' <C-w>j', opts)
-  buf_set_keymap('n', '<C-k>',' <C-w>k', opts)
-  buf_set_keymap('n', '<C-l>',' <C-w>l', opts)
-  buf_set_keymap('n', '<C-w><C-n>',' <ESC>:vert new<CR>', opts)
-  buf_set_keymap('n', '<C-s>',' :update<CR>', opts)
-  buf_set_keymap('n', '<C-w>n',' <esc>:vnew<cr>', opts)
-  buf_set_keymap('n', '<F4>',' :Autoformat<CR>', opts)
-  vim.cmd [[inoremap <C-s>',' <ESC>:update<CR>i]]
 end
 
 -- Setup nvim-cmp.
@@ -164,6 +151,8 @@ for _, lsp in ipairs(servers) do
   }
 end
 
+vim.g.python3_host_prog = '/usr/bin/python3'
+
 -- Grubox them
 vim.opt.termguicolors = true
 vim.g.airline_theme = 'gruvbox'
@@ -194,38 +183,4 @@ vim.cmd([[
   hi GitGutterDelete ctermfg=1
 ]])
 
--- general config
-vim.o.relativenumber = true
-vim.onumber = true
-vim.o.updatetime=200
-vim.o.splitright = true
 
--- Autoformat
-vim.g.python3_host_prog = '/usr/bin/python3'
-
-
-vim.cmd [[filetype plugin indent on]]
-vim.o.syntax = 'on'
-vim.o.number = true
-vim.o.hidden = true
-vim.o.tabstop = 2
-vim.o.softtabstop = 0
-vim.o.expandtab = true
-vim.o.shiftwidth=2
-vim.o.smarttab = true
-vim.o.scrolloff=20
-vim.o.spelllang = 'en_us'
-vim.o.inccommand = 'split'
-vim.o.ignorecase = true
-vim.o.smartcase = true
-vim.o.cursorline = true
-vim.o.clipboard = 'unnamedplus'
-vim.o.timeoutlen=2000
-
-vim.cmd([[
-  highlight StatusLine          cterm=bold    ctermfg=16 ctermbg=13
-  highlight StatusLineNC        cterm=inverse ctermfg=16 ctermbg=13
-]])
-
-vim.cmd[[ nnoremap * :keepjumps normal! mi*`i<CR> ]]
-vim.cmd[[ hi SignColumn cterm=NONE ctermbg=0 ctermfg=0 ]]
