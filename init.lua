@@ -2,11 +2,6 @@ require('install_plugins')
 require('user_config')
 local keymap = require('keymap')
 
--- lspconfig
-require'lspconfig'.pyright.setup{}
-require'lspconfig'.clangd.setup{}
-require'lspconfig'.ltex.setup{}
-require'lspconfig'.bashls.setup{}
 
 local opts = keymap.default_opts()
 local scilent_opts = keymap.default_scilent_opts()
@@ -103,6 +98,7 @@ cmp.setup.cmdline(':', {
   })
 })
 
+-- lspconfig
 require("rust-tools").setup({
   server={
     on_attach=on_attach,
@@ -113,6 +109,21 @@ require("rust-tools").setup({
   }
 })
 
+require'lspconfig'.pyright.setup{
+    on_attach = on_attach
+}
+
+require'lspconfig'.clangd.setup{
+  on_attach = on_attach
+}
+
+require'lspconfig'.ltex.setup{
+  on_attach = on_attach
+}
+
+require'lspconfig'.bashls.setup{
+  on_attach = on_attach
+}
 
 -- Telescope
 keymap.set_global('n', '<leader>ff', '<cmd>lua require("telescope.builtin").find_files()<cr>', scilent_opts)
