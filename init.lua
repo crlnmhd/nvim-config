@@ -24,9 +24,11 @@ local on_attach = function (client, bufnr)
   keymap.set_for_buf(bufnr, 'n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', scilent_opts)
   keymap.set_for_buf(bufnr, 'n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', scilent_opts)
   keymap.set_for_buf(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', scilent_opts)
-  keymap.set_for_buf(bufnr, 'n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', scilent_opts)
-  keymap.set_for_buf(bufnr, 'n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', scilent_opts)
 end
+
+keymap.set_global('n', '<space>n', '<cmd>lua vim.diagnostic.goto_next()<CR>', scilent_opts)
+keymap.set_global('n', '<space>N', '<cmd>lua vim.diagnostic.goto_prev()<CR>', scilent_opts)
+keymap.set_global('', '<space><leader>', '<cmd>lua vim.diagnostic.open_float()<CR>', scilent_opts)
 
 -- Setup nvim-cmp.
 local cmp = require'cmp'
@@ -111,38 +113,6 @@ require("rust-tools").setup({
   }
 })
 
-require("trouble").setup {
-  icons = false,
-  fold_open = "v", -- icon used for open folds
-  fold_closed = ">", -- icon used for closed folds
-  indent_lines = false, -- add an indent guide below the fold icons
-  signs = {
-    -- icons / text used for a diagnostic
-    error = "error",
-    warning = "warn",
-    hint = "hint",
-    information = "info"
-  },
-  action_keys = { -- disable most of the default keymapps.
-  hover = "K",
-  previous = "k", -- previous item
-  next = "j", -- next item
-},
-use_diagnostic_signs = true -- enabling this will use the signs defined in your lsp client
-}
-keymap.set_global("n", "<leader>q", "<cmd>Trouble quickfix<cr>")
-keymap.set_global('n', '<leader>t',' <cmd>TroubleToggle document_diagnostics<CR>')
-
-local servers = { "pyright", "clangd", "ltex", "bashls", "sumneko_lua"}
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
-    on_attach = on_attach,
-    flags = {
-      -- debounce_text_changes = 150,
-      capabilities = capabilities
-    }
-  }
-end
 
 -- Telescope
 keymap.set_global('n', '<leader>ff', '<cmd>lua require("telescope.builtin").find_files()<cr>', scilent_opts)
