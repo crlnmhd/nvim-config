@@ -25,6 +25,8 @@ vim.o.cursorline = true
 vim.o.clipboard = 'unnamedplus'
 vim.o.timeoutlen=2000
 
+vim.opt.completeopt={'menu','menuone','noselect'}
+
 vim.cmd([[
   highlight StatusLine          cterm=bold    ctermfg=16 ctermbg=13
   highlight StatusLineNC        cterm=inverse ctermfg=16 ctermbg=13

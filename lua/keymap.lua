@@ -12,6 +12,14 @@ function keymap.set_for_buf(bufnr, mode, lhs, rhs, opts)
   vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, options)
 end
 
+function keymap.default_opts()
+  return implementaion.get_options({noremap = true})
+end
+
+function keymap.default_scilent_opts()
+  return implementaion.get_options({noremap = true, scilent = true})
+end
+
 function implementaion.get_options(opts)
   local options = {noremap = true}
   if opts then

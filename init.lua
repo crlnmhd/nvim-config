@@ -2,48 +2,30 @@ require('install_plugins')
 require('user_config')
 local keymap = require('keymap')
 
---          LSP and nvim-cmp
-vim.opt.completeopt={'menu','menuone','noselect'}
-
+-- lspconfig
 require'lspconfig'.pyright.setup{}
 require'lspconfig'.clangd.setup{}
---- require'lspconfig'.rust_analyzer.setup{}
 require'lspconfig'.ltex.setup{}
 require'lspconfig'.bashls.setup{}
 
+local opts = keymap.default_opts()
+local scilent_opts = keymap.default_scilent_opts()
+
 local nvim_lsp = require('lspconfig')
-local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...)
-
-    -- Function signatures.
-    cfg = {
-      bind = true, -- This is mandatory, otherwise border config won't get registered.
-      handler_opts = {
-        border = "rounded"
-      },
-      toggle_key = '<leader> z',
-      select_signature_key = '<leader> Z'
+require "lsp_signature".setup({
+    bind = true, -- This is mandatory, otherwise border config won't get registered.
+    handler_opts = {
+      border = "rounded"
     }
-    require "lsp_signature".setup(cfg, bufnr)
+  })
 
-    vim.api.nvim_buf_set_keymap(bufnr, ...)
-  end
+local on_attach = function (client, bufnr)
   -- Mappings.
-  local opts = { noremap=true, silent=true }
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-
-  buf_set_keymap('n', '<leader>ff', '<cmd>lua require("telescope.builtin").find_files()<cr>', opts)
-  buf_set_keymap('n', '<leader>fg', '<cmd>lua require("telescope.builtin").live_grep()<cr>', opts)
-  buf_set_keymap('n', '<leader>fb', '<cmd>lua require("telescope.builtin").buffers()<cr>', opts)
-  buf_set_keymap('n', '<leader>fs', '<cmd>lua require("telescope.builtin").grep_string()<cr>', opts)
-  buf_set_keymap('n', '<leader>fh', '<cmd>lua require("telescope.builtin").help_tags()<cr>', opts)
-
-  buf_set_keymap('n', '<leader>t',' <cmd>TroubleToggle document_diagnostics<CR>', opts)
-
+  keymap.set_for_buf(bufnr, 'n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', scilent_opts)
+  keymap.set_for_buf(bufnr, 'n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', scilent_opts)
+  keymap.set_for_buf(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', scilent_opts)
+  keymap.set_for_buf(bufnr, 'n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', scilent_opts)
+  keymap.set_for_buf(bufnr, 'n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', scilent_opts)
 end
 
 -- Setup nvim-cmp.
@@ -130,16 +112,27 @@ require("rust-tools").setup({
 })
 
 require("trouble").setup {
-  -- your configuration comes here
-  -- or leave it empty to use the default settings
-  -- refer to the configuration section below
-  vim.api.nvim_set_keymap("n", "<leader>q", "<cmd>Trouble quickfix<cr>",
-  {silent = true, noremap = true}
-  )
+  icons = false,
+  fold_open = "v", -- icon used for open folds
+  fold_closed = ">", -- icon used for closed folds
+  indent_lines = false, -- add an indent guide below the fold icons
+  signs = {
+    -- icons / text used for a diagnostic
+    error = "error",
+    warning = "warn",
+    hint = "hint",
+    information = "info"
+  },
+  action_keys = { -- disable most of the default keymapps.
+  hover = "K",
+  previous = "k", -- previous item
+  next = "j", -- next item
+},
+use_diagnostic_signs = true -- enabling this will use the signs defined in your lsp client
 }
+keymap.set_global("n", "<leader>q", "<cmd>Trouble quickfix<cr>")
+keymap.set_global('n', '<leader>t',' <cmd>TroubleToggle document_diagnostics<CR>')
 
--- Use a loop to conveniently call 'setup' on multiple servers and
--- map buffer local keybindings when the language server attaches
 local servers = { "pyright", "clangd", "ltex", "bashls", "sumneko_lua"}
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
@@ -150,6 +143,13 @@ for _, lsp in ipairs(servers) do
     }
   }
 end
+
+-- Telescope
+keymap.set_global('n', '<leader>ff', '<cmd>lua require("telescope.builtin").find_files()<cr>', scilent_opts)
+keymap.set_global('n', '<leader>fg', '<cmd>lua require("telescope.builtin").live_grep()<cr>', scilent_opts)
+keymap.set_global('n', '<leader>fb', '<cmd>lua require("telescope.builtin").buffers()<cr>', scilent_opts)
+keymap.set_global('n', '<leader>fs', '<cmd>lua require("telescope.builtin").grep_string()<cr>', scilent_opts)
+keymap.set_global('n', '<leader>fh', '<cmd>lua require("telescope.builtin").help_tags()<cr>', scilent_opts)
 
 vim.g.python3_host_prog = '/usr/bin/python3'
 
@@ -174,13 +174,11 @@ vim.g.autoformat_retab  = 0
 -- Use more aggressive python formatting.
 vim.g.formatdef_autopep8 = "'autopep9 - --aggressive --range '.a:firstline.' '.a:lastline"
 vim.cmd [[let g:formatters_python = ['autopep8'] ]]
-vim.cmd [[ let g:formatters_lua = ['luafmt'] ]]
+vim.cmd [[let g:formatters_lua = ['luafmt'] ]]
 
 -- git gutter
 vim.cmd([[
-  hi GitGutterAdd    ctermfg=2
-  hi GitGutterChange ctermfg=3
-  hi GitGutterDelete ctermfg=1
+hi GitGutterAdd    ctermfg=2
+hi GitGutterChange ctermfg=3
+hi GitGutterDelete ctermfg=1
 ]])
-
-
