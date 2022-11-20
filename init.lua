@@ -14,13 +14,10 @@ require "lsp_signature".setup({
     }
   })
 
-local on_attach = function (client, bufnr)
-  -- Mappings.
-  keymap.set_for_buf(bufnr, 'n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', scilent_opts)
-  keymap.set_for_buf(bufnr, 'n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', scilent_opts)
-  keymap.set_for_buf(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', scilent_opts)
-end
 
+keymap.set_global('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', scilent_opts)
+keymap.set_global('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', scilent_opts)
+keymap.set_global('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', scilent_opts)
 keymap.set_global('n', '<space>n', '<cmd>lua vim.diagnostic.goto_next()<CR>', scilent_opts)
 keymap.set_global('n', '<space>N', '<cmd>lua vim.diagnostic.goto_prev()<CR>', scilent_opts)
 keymap.set_global('', '<space><leader>', '<cmd>lua vim.diagnostic.open_float()<CR>', scilent_opts)
@@ -109,21 +106,10 @@ require("rust-tools").setup({
   }
 })
 
-require'lspconfig'.pyright.setup{
-    on_attach = on_attach
-}
-
-require'lspconfig'.clangd.setup{
-  on_attach = on_attach
-}
-
-require'lspconfig'.ltex.setup{
-  on_attach = on_attach
-}
-
-require'lspconfig'.bashls.setup{
-  on_attach = on_attach
-}
+require'lspconfig'.pyright.setup{}
+require'lspconfig'.clangd.setup{}
+require'lspconfig'.ltex.setup{}
+require'lspconfig'.bashls.setup{}
 
 -- Telescope
 keymap.set_global('n', '<leader>ff', '<cmd>lua require("telescope.builtin").find_files()<cr>', scilent_opts)
