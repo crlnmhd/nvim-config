@@ -110,6 +110,8 @@ require'lspconfig'.pyright.setup{}
 require'lspconfig'.clangd.setup{}
 require'lspconfig'.ltex.setup{}
 require'lspconfig'.bashls.setup{}
+require'lspconfig'.gopls.setup{}
+
 
 -- Telescope
 keymap.set_global('n', '<leader>ff', '<cmd>lua require("telescope.builtin").find_files()<cr>', scilent_opts)
