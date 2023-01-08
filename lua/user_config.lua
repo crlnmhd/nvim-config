@@ -8,6 +8,7 @@ vim.o.splitright = true
 
 
 vim.cmd [[filetype plugin indent on]]
+vim.o.mouse = ""
 vim.o.syntax = 'on'
 vim.o.number = true
 vim.o.hidden = true
