@@ -15,7 +15,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " Gruvbox theme
-Plug 'morhetz/gruvbox'
+Plug 'ellisonleao/gruvbox.nvim'
 
 " lspconfig
 Plug 'neovim/nvim-lspconfig'
@@ -45,8 +45,10 @@ Plug 'saadparwaiz1/cmp_luasnip'
 " Rust-tools for inlay hints
 Plug 'simrat39/rust-tools.nvim'
 
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-refactor'
+
 
 call plug#end()
 

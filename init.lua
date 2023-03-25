@@ -124,9 +124,18 @@ vim.g.python3_host_prog = '/usr/bin/python3'
 
 -- Grubox them
 vim.opt.termguicolors = true
-vim.g.airline_theme = 'gruvbox'
+require("gruvbox").setup({
+  italic = {
+    strings = false,
+    comments = true,
+    operators = false,
+    folds = false,
+  },
+})
 vim.cmd [[colorscheme gruvbox]]
 vim.g.gruvbox_contrast_dark = 'medium'
+vim.g.airline_theme = 'base16_gruvbox_dark_medium'
+
 
 -- Airline
 vim.g.airline_powerline_fonts = 0
