@@ -112,6 +112,12 @@ require'lspconfig'.ltex.setup{}
 require'lspconfig'.bashls.setup{}
 require'lspconfig'.gopls.setup{}
 
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false,
+  },
+}
 
 -- Telescope
 keymap.set_global('n', '<leader>ff', '<cmd>lua require("telescope.builtin").find_files()<cr>', scilent_opts)
@@ -165,7 +171,7 @@ hi GitGutterDelete ctermfg=1
 require'nvim-treesitter.configs'.setup {
   refactor = {
     highlight_definitions = {
-      enable = true,
+      enable = false,
       -- Set to false if you have an `updatetime` of ~100.
       clear_on_cursor_move = true,
     },
