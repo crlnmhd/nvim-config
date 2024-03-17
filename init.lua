@@ -14,10 +14,9 @@ require "lsp_signature".setup({
     }
   })
 
-
 keymap.set_global('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', scilent_opts)
 keymap.set_global('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', scilent_opts)
-keymap.set_global('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', scilent_opts)
+keymap.set_global('n', 'gi', '<Cmd>lua vim.lsp.buf.implementation()<CR>', scilent_opts)
 keymap.set_global('n', '<space>n', '<cmd>lua vim.diagnostic.goto_next()<CR>', scilent_opts)
 keymap.set_global('n', '<space>N', '<cmd>lua vim.diagnostic.goto_prev()<CR>', scilent_opts)
 keymap.set_global('', '<space><leader>', '<cmd>lua vim.diagnostic.open_float()<CR>', scilent_opts)
